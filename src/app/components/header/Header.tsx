@@ -31,7 +31,7 @@ export const Header = () => {
             </div>
             <button 
               onClick={handleShowMenu}
-              className="text-white text-[20px] ml-[12px] lg:hidden inline-block"
+              className="text-white text-[20px] ml-[12px] lg:hidden inline-block cursor-pointer"
             >
               <FaBars />
             </button>
