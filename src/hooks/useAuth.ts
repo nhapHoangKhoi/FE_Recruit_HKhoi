@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 export const useAuth = () => {
   const [isLogin, setIsLogin] = useState(false);
   const [infoUser, setInfoUser] = useState<any>(null);
+  const [infoCompany, setInfoCompany] = useState<any>(null);
   
   const pathname = usePathname();
   
@@ -18,15 +19,27 @@ export const useAuth = () => {
           setIsLogin(false);
         }
 
+        console.log(data);
+
         if(data.code == "success") {
           setIsLogin(true);
-          setInfoUser(data.infoUser);
+
+          if(data.infoUser) {
+            setInfoUser(data.infoUser);
+            setInfoCompany(null);
+          }
+
+          if(data.infoCompany) {
+            setInfoCompany(data.infoCompany);
+            setInfoUser(null);
+          }
         }
       })
   }, [pathname]);
 
   return {
     isLogin: isLogin,
-    infoUser: infoUser
+    infoUser: infoUser,
+    infoCompany: infoCompany
   };
 }
