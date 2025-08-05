@@ -3,6 +3,7 @@ import Link from "next/link"
 import { FaBars } from "react-icons/fa6";
 import { HeaderMenu } from "./HeaderMenu";
 import { useState } from "react";
+import { HeaderAccount } from "./HeaderAccount";
 
 export const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -20,15 +21,7 @@ export const Header = () => {
               ITJobs
             </Link>
             <HeaderMenu showMenu={showMenu} />
-            <div className="inline-flex items-center gap-x-[5px] text-white font-[600] sm:text-[16px] text-[12px]">
-              <Link href="/user/login" className="">
-                Login
-              </Link>
-              <span className="">/</span>
-              <Link href="/user/register" className="">
-                Register
-              </Link>
-            </div>
+            <HeaderAccount />
             <button 
               onClick={handleShowMenu}
               className="text-white text-[20px] ml-[12px] lg:hidden inline-block cursor-pointer"
