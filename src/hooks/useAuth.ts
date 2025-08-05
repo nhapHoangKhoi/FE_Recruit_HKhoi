@@ -3,7 +3,6 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export const useAuth = () => {
-  console.log("Chay vao day")
   const [isLogin, setIsLogin] = useState(false);
   const [infoUser, setInfoUser] = useState<any>(null);
   
