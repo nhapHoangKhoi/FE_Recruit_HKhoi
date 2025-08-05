@@ -21,11 +21,11 @@ export const Header = () => {
             </Link>
             <HeaderMenu showMenu={showMenu} />
             <div className="inline-flex items-center gap-x-[5px] text-white font-[600] sm:text-[16px] text-[12px]">
-              <Link href="#" className="">
+              <Link href="/user/login" className="">
                 Login
               </Link>
               <span className="">/</span>
-              <Link href="#" className="">
+              <Link href="/user/register" className="">
                 Register
               </Link>
             </div>
