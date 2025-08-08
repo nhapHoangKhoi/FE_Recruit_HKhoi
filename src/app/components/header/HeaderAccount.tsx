@@ -6,9 +6,6 @@ export const HeaderAccount = () => {
   const { isLogin, infoUser, infoCompany } = useAuth();
   const router = useRouter();
 
-  console.log(infoUser);
-  console.log(infoCompany)
-
   const handleLogout = (linkRedirect: string) => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
       credentials: "include" // send with cookie
@@ -34,12 +31,12 @@ export const HeaderAccount = () => {
                 </Link>
                 <ul className="absolute top-[100%] right-[0px] w-[200px] bg-[#000065] hidden group-hover/sub-1:block">
                   <li className="py-[10px] px-[16px] rounded-[4px] flex items-center justify-between hover:bg-[#000096] relative group/sub-2">
-                    <Link href="" className="text-white font-[600] text-[16px]">
+                    <Link href="/user-manage/profile" className="text-white font-[600] text-[16px]">
                       Your profile
                     </Link>
                   </li>
                   <li className="py-[10px] px-[16px] rounded-[4px] flex items-center justify-between hover:bg-[#000096] relative group/sub-2">
-                    <Link href="" className="text-white font-[600] text-[16px]">
+                    <Link href="/user-manage/cv/list" className="text-white font-[600] text-[16px]">
                       Your sent resume
                     </Link>
                   </li>

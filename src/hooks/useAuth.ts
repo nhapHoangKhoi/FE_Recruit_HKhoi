@@ -19,8 +19,6 @@ export const useAuth = () => {
           setIsLogin(false);
         }
 
-        console.log(data);
-
         if(data.code == "success") {
           setIsLogin(true);
 

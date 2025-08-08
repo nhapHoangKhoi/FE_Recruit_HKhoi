@@ -9,3 +9,7 @@
 select, input, textarea {
   outline: none;
 }
+
+.just-validate-error-label {
+  font-size: 12px;
+}
