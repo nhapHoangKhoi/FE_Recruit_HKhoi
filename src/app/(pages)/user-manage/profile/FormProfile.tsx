@@ -24,6 +24,7 @@ registerPlugin(
 export const FormProfile = () => {
   const { infoUser } = useAuth();
   const [avatars, setAvatars] = useState<any>([]);
+  const [isValid, setIsValid] = useState(false);
 
   useEffect(() => {
     if(infoUser) {
@@ -64,40 +65,48 @@ export const FormProfile = () => {
             errorMessage: 'Invalid email format!',
           },
         ])
+        .onFail(() => {
+          setIsValid(false);
+        })
+        .onSuccess(() => {
+          setIsValid(true);
+        });
     }
   }, [infoUser]);
 
   const handleSubmit = (event: any) => {
-    const fullName = event.target.fullName.value;
-    const email = event.target.email.value;
-    const phone = event.target.phone.value;
-    let avatar = null;
-    if(avatars.length > 0) {
-      avatar = avatars[0].file;
-    }
-
-    // FormData
-    const formData = new FormData();
-    formData.append("fullName", fullName);
-    formData.append("email", email);
-    formData.append("phone", phone);
-    formData.append("avatar", avatar);
-
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/profile`, {
-      method: "PATCH",
-      body: formData,
-      credentials: "include" // send with cookie
-    })
-      .then(res => res.json())
-      .then(data => {
-        if(data.code == "error") {
-          toast.error(data.message);
-        }
-
-        if(data.code == "success") {
-          toast.success(data.message);
-        }
+    if(isValid) {
+      const fullName = event.target.fullName.value;
+      const email = event.target.email.value;
+      const phone = event.target.phone.value;
+      let avatar = null;
+      if(avatars.length > 0) {
+        avatar = avatars[0].file;
+      }
+  
+      // FormData
+      const formData = new FormData();
+      formData.append("fullName", fullName);
+      formData.append("email", email);
+      formData.append("phone", phone);
+      formData.append("avatar", avatar);
+  
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/profile`, {
+        method: "PATCH",
+        body: formData,
+        credentials: "include" // send with cookie
       })
+        .then(res => res.json())
+        .then(data => {
+          if(data.code == "error") {
+            toast.error(data.message);
+          }
+  
+          if(data.code == "success") {
+            toast.success(data.message);
+          }
+        })
+    }
   }
 
   return (
@@ -128,7 +137,7 @@ export const FormProfile = () => {
               allowRemove={true}
               labelIdle="+"
               acceptedFileTypes={['image/*']} // needs to install FilePondPluginFileValidateType
-              files={avatars} // show default images
+              files={avatars} // show default images in this variable
               onupdatefiles={setAvatars}
             />
           </div>

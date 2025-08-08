@@ -26,7 +26,7 @@ export const HeaderAccount = () => {
             {/* Login user account successfully */}
             {infoUser && (
               <>
-                <Link href="#" className="">
+                <Link href="" className="">
                   {infoUser.fullName}
                 </Link>
                 <ul className="absolute top-[100%] right-[0px] w-[200px] bg-[#000065] hidden group-hover/sub-1:block">
@@ -50,22 +50,22 @@ export const HeaderAccount = () => {
             {/* Login company account successfully */}
             {infoCompany && (
               <>
-                <Link href="#" className="">
+                <Link href="" className="">
                   {infoCompany.companyName}
                 </Link>
                 <ul className="absolute top-[100%] right-[0px] w-[200px] bg-[#000065] hidden group-hover/sub-1:block">
                   <li className="py-[10px] px-[16px] rounded-[4px] flex items-center justify-between hover:bg-[#000096] relative group/sub-2">
-                    <Link href="" className="text-white font-[600] text-[16px]">
+                    <Link href="/company-manage/profile" className="text-white font-[600] text-[16px]">
                       Company profile
                     </Link>
                   </li>
                   <li className="py-[10px] px-[16px] rounded-[4px] flex items-center justify-between hover:bg-[#000096] relative group/sub-2">
-                    <Link href="" className="text-white font-[600] text-[16px]">
+                    <Link href="/company-manage/job/list" className="text-white font-[600] text-[16px]">
                       Opening jobs
                     </Link>
                   </li>
                   <li className="py-[10px] px-[16px] rounded-[4px] flex items-center justify-between hover:bg-[#000096] relative group/sub-2">
-                    <Link href="" className="text-white font-[600] text-[16px]">
+                    <Link href="/company-manage/cv/list" className="text-white font-[600] text-[16px]">
                       Applied applicants
                     </Link>
                   </li>
