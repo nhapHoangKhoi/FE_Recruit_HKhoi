@@ -5,16 +5,16 @@ export function middleware(request: NextRequest) {
   const tokenAccount = request.cookies.get("tokenAccount")?.value;
   const tokenCompany = request.cookies.get("tokenCompany")?.value;
 
-  const path = request.nextUrl.pathname;
+  const pathname = request.nextUrl.pathname;
 
-  if(path.startsWith('/user-manage')) {
+  if(pathname.startsWith('/user-manage')) {
     if(!tokenAccount) {
       return NextResponse.redirect(new URL('/', request.url));
     }
     return NextResponse.next();
   }
 
-  if(path.startsWith('/company-manage')) {
+  if(pathname.startsWith('/company-manage')) {
     if(!tokenCompany) {
       return NextResponse.redirect(new URL('/', request.url));
     }
