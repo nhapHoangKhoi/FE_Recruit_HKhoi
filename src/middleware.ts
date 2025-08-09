@@ -22,9 +22,9 @@ export function middleware(request: NextRequest) {
   }
 }
  
-// export const config = {
-//   matcher: [
-//     '/user-manage/:path*',
-//     '/company-manage/:path*',
-//   ],
-// }
+export const config = {
+  matcher: [
+    '/user-manage/:path*',
+    '/company-manage/:path*',
+  ],
+}
