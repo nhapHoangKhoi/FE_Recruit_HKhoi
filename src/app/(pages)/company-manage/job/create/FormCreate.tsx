@@ -14,6 +14,8 @@ import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 // --- End image preview with filepond
 import { Toaster, toast } from 'sonner';
+import { workingFormList } from "@/config/workingForm";
+import { levelList } from "@/config/level";
 
 // Register plugin
 registerPlugin(
@@ -155,12 +157,9 @@ export const FormCreate = () => {
             id="level" 
             className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
           >
-            <option value="Intern">Intern</option>
-            <option value="Fresher">Fresher</option>
-            <option value="Junior">Junior</option>
-            <option value="Middle">Middle</option>
-            <option value="Senior">Senior</option>
-            <option value="Manager">Manager</option>
+            {levelList.map((item, index) => (
+              <option key={index} value={item.value}>{item.label}</option>
+            ))}
           </select>
         </div>
         <div className="">
@@ -172,9 +171,9 @@ export const FormCreate = () => {
             id="workingForm" 
             className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
           >
-            <option value="onsite">Onsite</option>
-            <option value="remote">Remote</option>
-            <option value="hybrid">Hybrid</option>
+            {workingFormList.map((item, index) => (
+              <option key={index} value={item.value}>{item.label}</option>
+            ))}
           </select>
         </div>
         <div className="sm:col-span-2">
