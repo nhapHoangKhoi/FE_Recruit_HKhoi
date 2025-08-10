@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
+import { ButtonDelete } from "@/app/components/button/ButtonDelete"
 import { workingFormList } from "@/config/workingForm"
 import Link from "next/link"
 import { useEffect, useState } from "react"
@@ -10,10 +11,17 @@ export const JobList = () => {
   const [jobList, setJobList] = useState<any[]>([]);
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
+  // const [count, setCount] = useState(true);
 
   const handlePagination = (event: any) => {
     const value = event.target.value;
     setPage(parseInt(value));
+  }
+
+  // remove item on UI immediately
+  const handleAfterDeleteSuccess = (deleteId: string) => {
+    setJobList(prev => prev.filter(job => job.id !== deleteId));
+    // setCount(!count);
   }
 
   useEffect(() => {
@@ -28,7 +36,7 @@ export const JobList = () => {
           setTotalPage(data.totalPage);
         }
       })
-  }, [page]);
+  }, [page]); // [page, count]
 
   return (
     <>
@@ -93,9 +101,11 @@ export const JobList = () => {
                 <Link href={`/company-manage/job/edit/${item.id}`} className="bg-[#FFB200] rounded-[4px] font-[400] text-[14px] text-black inline-block py-[8px] px-[20px]">
                   Edit
                 </Link>
-                <Link href="#" className="bg-[#FF0000] rounded-[4px] font-[400] text-[14px] text-white inline-block py-[8px] px-[20px]">
-                  Delete forever
-                </Link>
+                <ButtonDelete 
+                  api={`${process.env.NEXT_PUBLIC_API_URL}/company/job/delete/${item.id}`} 
+                  id={item.id}
+                  onDeleteSuccess={handleAfterDeleteSuccess}
+                />
               </div>
             </div>
           )
