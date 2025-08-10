@@ -11,12 +11,10 @@ export const JobList = () => {
   const [page, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
 
-
   const handlePagination = (event: any) => {
     const value = event.target.value;
     setPage(parseInt(value));
   }
-
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/company/job/list?page=${page}`, {
