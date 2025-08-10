@@ -172,7 +172,9 @@ export const FormCreate = () => {
             className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black"
           >
             {workingFormList.map((item, index) => (
-              <option key={index} value={item.value}>{item.label}</option>
+              <option key={index} value={item.value}>
+                {item.label}
+              </option>
             ))}
           </select>
         </div>
