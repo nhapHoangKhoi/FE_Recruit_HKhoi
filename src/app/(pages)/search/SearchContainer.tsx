@@ -13,17 +13,20 @@ export const SearchContainer = () => {
   const keyword = searchParams.get("keyword") || "";
   const level = searchParams.get("level") || "";
   const workingForm = searchParams.get("workingForm") || "";
+  const page = searchParams.get("page") || "";
   const [jobList, setJobList] = useState<any[]>([]);
+  const [totalPage, setTotalPage] = useState();
   
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/search?language=${language}&city=${city}&company=${company}&keyword=${keyword}&level=${level}&workingForm=${workingForm}`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/search?language=${language}&city=${city}&company=${company}&keyword=${keyword}&level=${level}&workingForm=${workingForm}&page=${page}`)
       .then(res => res.json())
       .then(data => {
         if(data.code == "success") {
           setJobList(data.jobs);
+          setTotalPage(data.totalPage);
         }
       })
-  }, [language, city, company, keyword, level, workingForm]);
+  }, [language, city, company, keyword, level, workingForm, page]);
 
   const handleFilterLevel = (event: any) => {
     const value = event.target.value;
@@ -48,6 +51,20 @@ export const SearchContainer = () => {
     } 
     else {
       currentParams.delete("workingForm");
+    }
+
+    router.push(`?${currentParams.toString()}`);
+  }
+
+  const handlePagination = (event: any) => {
+    const value = event.target.value;
+    const currentParams = new URLSearchParams(searchParams.toString());
+    
+    if(value) {
+      currentParams.set("page", value);
+    } 
+    else {
+      currentParams.delete("page");
     }
 
     router.push(`?${currentParams.toString()}`);
@@ -103,13 +120,21 @@ export const SearchContainer = () => {
             ))}
           </div>
 
-          <div className="mt-[30px]">
-            <select name="" className="border border-[#DEDEDE] rounded-[8px] py-[12px] px-[18px] font-[400] text-[16px] text-[#414042]">
-              <option value="">Trang 1</option>
-              <option value="">Trang 2</option>
-              <option value="">Trang 3</option>
-            </select>
-          </div>
+          {totalPage && (
+            <div className="mt-[30px]">
+              <select 
+                onChange={handlePagination}
+                defaultValue={page}
+                className="border border-[#DEDEDE] rounded-[8px] py-[12px] px-[18px] font-[400] text-[16px] text-[#414042]"
+              >
+                {Array(totalPage).fill("").map((item, index) => (
+                  <option value={index+1} key={index}>
+                    Page {index+1}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
         </div>
       </div>
     </>
