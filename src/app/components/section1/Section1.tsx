@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 
 export const Section1 = () => {
+  const searchParams = useSearchParams();
+  const city = searchParams.get("city") || "";
+  
   const router = useRouter();
 
   const handleSearch = (event: any) => {
@@ -22,7 +25,11 @@ export const Section1 = () => {
         <div className="container mx-auto px-[16px]">
           <h1 className="text-white font-[700] text-[28px] text-center mb-[30px]">887 Opening jobs for &quot;Developers&quot;</h1>
           <form action="" onSubmit={handleSearch} className="flex flex-wrap gap-x-[15px] gap-y-[12px] mb-[30px]">
-            <select name="city" className="bg-white md:w-[240px] w-[100%] h-[56px] rounded-[4px] px-[20px] font-[500] text-[16px] text-[#121212]">
+            <select 
+              name="city" 
+              className="bg-white md:w-[240px] w-[100%] h-[56px] rounded-[4px] px-[20px] font-[500] text-[16px] text-[#121212]"
+              defaultValue={city}
+            >
               <option value="">All locations</option>
               <option value="Hà Nội">Hà Nội</option>
               <option value="Đà Nẵng">Đà Nẵng</option>
