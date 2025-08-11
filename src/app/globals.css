@@ -13,3 +13,7 @@ select, input, textarea {
 .just-validate-error-label {
   font-size: 12px;
 }
+
+html {
+  scroll-behavior: smooth;
+}
