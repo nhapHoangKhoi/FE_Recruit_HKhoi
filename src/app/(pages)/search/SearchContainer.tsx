@@ -1,26 +1,42 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import { CardJobItem } from "@/app/components/card/CardJobItem"
-import { useSearchParams } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react";
 
 export const SearchContainer = () => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const language = searchParams.get("language") || "";
   const city = searchParams.get("city") || "";
   const company = searchParams.get("company") || "";
   const keyword = searchParams.get("keyword") || "";
+  const level = searchParams.get("level") || "";
   const [jobList, setJobList] = useState<any[]>([]);
   
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/search?language=${language}&city=${city}&company=${company}&keyword=${keyword}`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/search?language=${language}&city=${city}&company=${company}&keyword=${keyword}&level=${level}`)
       .then(res => res.json())
       .then(data => {
         if(data.code == "success") {
           setJobList(data.jobs);
         }
       })
-  }, [language, city, company, keyword]);
+  }, [language, city, company, keyword, level]);
+
+  const handleFilterLevel = (event: any) => {
+    const value = event.target.value;
+    const currentParams = new URLSearchParams(searchParams.toString());
+    
+    if(value) {
+      currentParams.set("level", value);
+    } 
+    else {
+      currentParams.delete("level");
+    }
+
+    router.push(`?${currentParams.toString()}`);
+  }
 
   return (
     <>
@@ -29,7 +45,7 @@ export const SearchContainer = () => {
           <h2 className="font-[700] text-[28px] text-[#121212] mb-[30px]">
             {jobList.length} Opening jobs for 
             <span className="text-[#0088FF]">
-              {language} {city} {company} {keyword}
+              {language} {city} {company} {keyword} {level}
             </span>
           </h2>
 
@@ -39,14 +55,19 @@ export const SearchContainer = () => {
               boxShadow: "0px 4px 20px 0px #0000000F"
             }}
           >
-            <select name="" className="border border-[#DEDEDE] rounded-[20px] h-[36px] px-[18px] font-[400] text-[16px] text-[#414042]">
+            <select 
+              onChange={handleFilterLevel}
+              name="" 
+              className="border border-[#DEDEDE] rounded-[20px] h-[36px] px-[18px] font-[400] text-[16px] text-[#414042]"
+              defaultValue={level}
+            >
               <option value="">Job types</option>
-              <option value="">Intern</option>
-              <option value="">Fresher</option>
-              <option value="">Junior</option>
-              <option value="">Middle</option>
-              <option value="">Senior</option>
-              <option value="">Manager</option>
+              <option value="Intern">Intern</option>
+              <option value="Fresher">Fresher</option>
+              <option value="Junior">Junior</option>
+              <option value="Middle">Middle</option>
+              <option value="Senior">Senior</option>
+              <option value="Manager">Manager</option>
             </select>
             <select name="" className="border border-[#DEDEDE] rounded-[20px] h-[36px] px-[18px] font-[400] text-[16px] text-[#414042]">
               <option value="">Workplace type</option>
