@@ -12,17 +12,18 @@ export const SearchContainer = () => {
   const company = searchParams.get("company") || "";
   const keyword = searchParams.get("keyword") || "";
   const level = searchParams.get("level") || "";
+  const workingForm = searchParams.get("workingForm") || "";
   const [jobList, setJobList] = useState<any[]>([]);
   
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/search?language=${language}&city=${city}&company=${company}&keyword=${keyword}&level=${level}`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/search?language=${language}&city=${city}&company=${company}&keyword=${keyword}&level=${level}&workingForm=${workingForm}`)
       .then(res => res.json())
       .then(data => {
         if(data.code == "success") {
           setJobList(data.jobs);
         }
       })
-  }, [language, city, company, keyword, level]);
+  }, [language, city, company, keyword, level, workingForm]);
 
   const handleFilterLevel = (event: any) => {
     const value = event.target.value;
@@ -38,6 +39,20 @@ export const SearchContainer = () => {
     router.push(`?${currentParams.toString()}`);
   }
 
+  const handleFilterWorkingForm = (event: any) => {
+    const value = event.target.value;
+    const currentParams = new URLSearchParams(searchParams.toString());
+    
+    if(value) {
+      currentParams.set("workingForm", value);
+    } 
+    else {
+      currentParams.delete("workingForm");
+    }
+
+    router.push(`?${currentParams.toString()}`);
+  }
+
   return (
     <>
       <div className="py-[60px]">
@@ -45,7 +60,7 @@ export const SearchContainer = () => {
           <h2 className="font-[700] text-[28px] text-[#121212] mb-[30px]">
             {jobList.length} Opening jobs for 
             <span className="text-[#0088FF]">
-              {language} {city} {company} {keyword} {level}
+              {language} {city} {company} {keyword}
             </span>
           </h2>
 
@@ -69,11 +84,16 @@ export const SearchContainer = () => {
               <option value="Senior">Senior</option>
               <option value="Manager">Manager</option>
             </select>
-            <select name="" className="border border-[#DEDEDE] rounded-[20px] h-[36px] px-[18px] font-[400] text-[16px] text-[#414042]">
+            <select 
+              name="" 
+              className="border border-[#DEDEDE] rounded-[20px] h-[36px] px-[18px] font-[400] text-[16px] text-[#414042]"
+              onChange={handleFilterWorkingForm}
+              defaultValue={workingForm}
+            >
               <option value="">Workplace type</option>
-              <option value="">Onsite</option>
-              <option value="">Remote</option>
-              <option value="">Hybrid</option>
+              <option value="onsite">Onsite</option>
+              <option value="remote">Remote</option>
+              <option value="hybrid">Hybrid</option>
             </select>
           </div>
 
