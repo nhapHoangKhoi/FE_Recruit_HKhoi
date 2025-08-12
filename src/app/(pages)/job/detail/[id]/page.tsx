@@ -3,6 +3,7 @@ import { workingFormList } from "@/config/workingForm"
 import { Metadata } from "next"
 import Link from "next/link"
 import { FaArrowRightLong, FaBriefcase, FaLocationDot, FaUserTie } from "react-icons/fa6"
+import { FormApply } from "./FormApply"
 
 export const metadata: Metadata = {
   title: "Job detail",
@@ -89,40 +90,7 @@ export default async function JobDetailPage({ params }: {
                 {/* End job description */}
 
                 {/* Apply form */}
-                <div className="border border-[#DEDEDE] rounded-[8px] p-[20px] mt-[20px]">
-                  <h2 className="font-[700] text-[20px] text-black mb-[20px]">
-                    Apply For This Job
-                  </h2>
-                  <form action="" id="formApply" className="">
-                    <div className="mb-[15px]">
-                      <label htmlFor="fullName" className="block font-[500] text-[14px] text-black mb-[5px]">
-                        Full name *
-                      </label>
-                      <input type="text" name="" id="fullName" className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black" />
-                    </div>
-                    <div className="mb-[15px]">
-                      <label htmlFor="email" className="block font-[500] text-[14px] text-black mb-[5px]">
-                        Email *
-                      </label>
-                      <input type="email" name="" id="email" className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black" />
-                    </div>
-                    <div className="mb-[15px]">
-                      <label htmlFor="phone" className="block font-[500] text-[14px] text-black mb-[5px]">
-                        Phone number *
-                      </label>
-                      <input type="text" name="" id="phone" className="w-[100%] h-[46px] border border-[#DEDEDE] rounded-[4px] py-[14px] px-[20px] font-[500] text-[14px] text-black" />
-                    </div>
-                    <div className="mb-[15px]">
-                      <label htmlFor="fileCV" className="block font-[500] text-[14px] text-black mb-[5px]">
-                        File CV as PDF *
-                      </label>
-                      <input type="file" name="" id="fileCV" accept="application/pdf" className="" />
-                    </div>
-                    <button className="w-[100%] h-[48px] rounded-[4px] bg-[#0088FF] font-[700] text-[16px] text-white cursor-pointer">
-                      Submit
-                    </button>
-                  </form>
-                </div>
+                <FormApply jobId={jobDetail.id} />
                 {/* End apply form */}
               </div>
               {/* Right */}
