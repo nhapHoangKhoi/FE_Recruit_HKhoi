@@ -16,6 +16,7 @@ export const SearchContainer = () => {
   const page = searchParams.get("page") || "";
   const [jobList, setJobList] = useState<any[]>([]);
   const [totalPage, setTotalPage] = useState();
+  const [totalRecords, setTotalRecords] = useState();
   
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/search?language=${language}&city=${city}&company=${company}&keyword=${keyword}&level=${level}&workingForm=${workingForm}&page=${page}`)
@@ -24,6 +25,7 @@ export const SearchContainer = () => {
         if(data.code == "success") {
           setJobList(data.jobs);
           setTotalPage(data.totalPage);
+          setTotalRecords(data.totalRecords);
         }
       })
   }, [language, city, company, keyword, level, workingForm, page]);
@@ -75,7 +77,9 @@ export const SearchContainer = () => {
       <div className="py-[60px]">
         <div className="container mx-auto px-[16px]">
           <h2 className="font-[700] text-[28px] text-[#121212] mb-[30px]">
-            {jobList.length} Opening jobs for 
+            {totalRecords && (
+              <>{totalRecords} Opening jobs for </>
+            )}
             <span className="text-[#0088FF]">
               {language} {city} {company} {keyword}
             </span>

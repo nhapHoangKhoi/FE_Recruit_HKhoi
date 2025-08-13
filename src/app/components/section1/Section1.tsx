@@ -37,7 +37,7 @@ export const Section1 = () => {
               <option value="Hồ Chí Minh">Hồ Chí Minh</option>
             </select>
             <input type="text" name="keyword" defaultValue={keyword} placeholder="Search by keyword..." className="md:flex-1 flex-none w-[100%] bg-white h-[56px] rounded-[4px] px-[20px] font-[500] text-[16px] text-[#121212]" />
-            <button className="bg-[#0088FF] md:w-[240px] w-[100%] h-[56px] rounded-[4px] text-white inline-flex items-center justify-center gap-[10px] font-[500] text-[16px]">
+            <button className="bg-[#0088FF] md:w-[240px] w-[100%] h-[56px] rounded-[4px] text-white inline-flex items-center justify-center gap-[10px] font-[500] text-[16px] cursor-pointer">
               <FaMagnifyingGlass className="text-[20px]" /> Search
             </button>
           </form>
