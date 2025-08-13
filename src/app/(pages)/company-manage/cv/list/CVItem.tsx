@@ -1,0 +1,114 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { FaBriefcase, FaCircleCheck, FaEnvelope, FaEye, FaPhone, FaUserTie } from "react-icons/fa6"
+import Link from "next/link"
+import { workingFormList } from "@/config/workingForm";
+import { cvStatusList } from "@/config/cvList";
+import { useState } from "react";
+
+export const CVItem = (props: {
+  item: any
+}) => {
+  const { item } = props;
+  const workingForm = workingFormList.find(work => work.value === item.jobWorkingForm)?.label;
+  
+  const statusDefault = cvStatusList.find(itemStatus => itemStatus.value === item.status);
+  const [status, setStatus] = useState(statusDefault);
+
+  const handleChangeStatus = (action: string) => {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/company/resume/change-status`, {
+      method: "PATCH",
+      credentials: "include", // send with cookie
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        action: action,
+        id: item.id
+      })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if(data.code == "success") {
+          const statusNew = cvStatusList.find(itemStatus => itemStatus.value === action);
+          setStatus(statusNew);
+        }
+      })
+  }
+
+  return (
+    <>
+      <div
+        className="border border-[#DEDEDE] rounded-[8px] flex flex-col relative truncate"
+        style={{
+          background: "linear-gradient(180deg, #F6F6F6 2.38%, #FFFFFF 70.43%)"
+        }}
+      >
+        <img 
+          src="/assets/images/card-bg.svg" 
+          alt="" 
+          className="absolute top-[0px] left-[0px] w-[100%] h-auto" 
+        />
+        <h3 className="mt-[20px] mx-[16px] font-[700] text-[18px] text-[#121212] text-center flex-1 whitespace-normal line-clamp-2">
+          {item.jobTitle}
+        </h3>
+        <div className="mt-[12px] text-center font-[400] text-[14px] text-black">
+          Applicant: <span className="font-[700]">{item.fullName}</span>
+        </div>
+        <div className="mt-[6px] flex justify-center items-center gap-[8px] font-[400] text-[14px] text-[#121212]">
+          <FaEnvelope className="" /> {item.email}
+        </div>
+        <div className="mt-[6px] flex justify-center items-center gap-[8px] font-[400] text-[14px] text-[#121212]">
+          <FaPhone className="" /> {item.phone}
+        </div>
+        <div className="mt-[12px] text-center font-[600] text-[16px] text-[#0088FF]">
+          {item.jobSalaryMin.toLocaleString("vi-VN")}$ - {item.jobSalaryMax.toLocaleString("vi-VN")}$
+        </div>
+        <div className="mt-[6px] flex justify-center items-center gap-[8px] font-[400] text-[14px] text-[#121212]">
+          <FaUserTie className="text-[16px]" /> {item.jobPosition}
+        </div>
+        <div className="mt-[6px] flex justify-center items-center gap-[8px] font-[400] text-[14px] text-[#121212]">
+          <FaBriefcase className="text-[16px]" /> {workingForm}
+        </div>
+        <div className={
+          "mt-[6px] flex justify-center items-center gap-[8px] font-[400] text-[14px] " +
+          (item.viewed ? "" : "text-[#FF0000]")
+        }>
+          <FaEye className="text-[16px]" /> {item.viewed ? "Viewed" : "Unread"}
+        </div>
+        <div 
+          className="mt-[6px] flex justify-center items-center gap-[8px] font-[400] text-[14px]"
+          style={{
+            color: status?.color
+          }}
+        >
+          <FaCircleCheck className="text-[16px]" /> {status?.label}
+        </div>
+        <div className="flex flex-wrap items-center justify-center gap-[8px] mt-[12px] mb-[20px] mx-[10px]">
+          <Link href={`/company-manage/cv/detail/${item.id}`} className="bg-[#0088FF] rounded-[4px] font-[400] text-[14px] text-white inline-block py-[8px] px-[20px]">
+            More Detail
+          </Link>
+          {(status?.value == "initial" || status?.value == "rejected") && (
+            <button 
+              onClick={() => handleChangeStatus("accepted")}
+              className="bg-[#9FDB7C] rounded-[4px] font-[400] text-[14px] text-black inline-block py-[8px] px-[20px] cursor-pointer"
+            >
+              Accept
+            </button>
+          )}
+          {(status?.value == "initial" || status?.value == "accepted") && (
+            <button 
+              onClick={() => handleChangeStatus("rejected")}
+              className="bg-[#FF5100] rounded-[4px] font-[400] text-[14px] text-white inline-block py-[8px] px-[20px] cursor-pointer"
+            >
+              Decline
+            </button>
+          )}
+          <Link href="#" className="bg-[#FF0000] rounded-[4px] font-[400] text-[14px] text-white inline-block py-[8px] px-[20px]">
+            Remove
+          </Link>
+        </div>
+      </div>
+    </>
+  )
+}
