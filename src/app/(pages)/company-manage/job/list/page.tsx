@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { Metadata } from "next"
 import Link from "next/link"
-import { FaBriefcase, FaLocationDot, FaUserTie } from "react-icons/fa6"
 import { JobList } from "./JobList"
 
 export const metadata: Metadata = {
