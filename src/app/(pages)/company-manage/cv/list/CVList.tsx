@@ -6,6 +6,7 @@ import { CVItem } from "./CVItem"
 
 export const CVList = () => {
   const [listCVs, setListCVs] = useState<any[]>([]);
+  const [count, setCount] = useState(true);
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/company/resume/list`, {
@@ -20,11 +21,21 @@ export const CVList = () => {
       })
   }, []);
 
+  // remove item on UI immediately
+  const handleDeleteSuccess = (deleteId: string) => {
+    // setListCVs(prev => prev.filter(cv => cv.id !== deleteId));
+    setCount(!count);
+  }
+
   return (
     <>
       <div className="grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-[20px]">
         {listCVs.map(item => (
-          <CVItem key={item.id} item={item} />
+          <CVItem 
+            key={item.id} 
+            item={item}
+            onDeleteSuccess={handleDeleteSuccess}
+          />
         ))}
       </div>
 
